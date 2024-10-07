@@ -1,0 +1,13 @@
+def reverseInledList(head):
+    prev= None
+    curr = head
+    nxt = head.next
+    while curr!=None:
+        #change the dir
+        nxt = curr.next
+        curr.next = prev
+        #shift the nodes
+        prev = curr
+        curr = nxt
+    head = prev
+    return head
