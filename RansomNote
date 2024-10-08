@@ -1,0 +1,11 @@
+from collections import Counter
+def checkMagazine(magazine,note):
+    mag = {}
+    notes ={}
+    mag = Counter(magazine)
+    notes = Counter(note)
+    result = notes-mag
+    if result=={}:
+        print("yes")
+        return
+    print("no")
