@@ -1,0 +1,31 @@
+def palindrome(s,n,k):
+    s=list(s)
+    mark=[0]*n
+    left,right=0,n-1
+    while left<=right:
+        if k<0:
+            return "-1"
+        if s[left]!=s[right]:
+            if s[left]>s[right]:
+                s[right]=s[left]
+                mark[right]=1
+            else:
+                s[left]=s[right]
+                mark[left]=1
+                k-=1
+            left+=1
+            right-=1
+
+    left,right=0,1
+    while left<=right:
+        if left==right and k>=1:
+            s[left]="9"
+            break
+        if s[left]<="9":
+            if mark[left]==0 and mark[right]==0 and k>=2:
+                s[left]=s[right]="9"
+                k-=2
+            if (mark[left]==1 or mark[right]==1) and k>=1:
+                s[left]=s[right]="9"
+                k-=1
+    return " ".join(s)
