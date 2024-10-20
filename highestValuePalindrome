@@ -1,0 +1,80 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+def mismatchCount(str1, str2):
+    assert len(str1)==len(str2)
+    count=0
+    for i, j in zip(str1, str2):
+        count+=i!=j
+    return count
+
+def parsePalindrome(s):
+    odd=len(s)% 2!= 0
+    center=len(s)//2
+    mid=s[center] if odd else ''
+    left =s[:center]
+    right=s[center+1:] if odd else s[center:]
+    return left, mid, right[::-1]
+    
+nine='9'
+def highestValuePalindrome(s, n, k):
+    # Write your code here
+    left, middle, right_rev = parsePalindrome(s)
+    mismatch = mismatchCount(left, right_rev)
+    if k>=n:
+        return nine*n
+    if k-mismatch<0:
+        return '-1'
+    left_final = ''
+    for l , r in zip(left, right_rev):
+        mismatched = l != r
+        nonNine = int(l!=nine)+ int(r!=nine)
+        next_char= None
+        if not mismatched:
+            next_char= l
+            if nonNine>0 and k-2>=mismatch:
+                k-=2
+                next_char= nine
+        else:
+            if nonNine==1:
+                    k-=1
+                    mismatch-=1
+                    next_char=nine
+            else:
+                if k-2>=mismatch-1:
+                        k-=2
+                        mismatch -=1
+                        next_char=nine
+                else:
+                    higher_num = max(int(l),int(r))
+                    k-=1
+                    mismatch-=1
+                    next_char=str(higher_num)
+        left_final+=next_char
+    if k and middle:
+        middle=nine
+    return left_final +middle+left_final[::-1]
+            
+    
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    first_multiple_input = input().rstrip().split()
+
+    n = int(first_multiple_input[0])
+
+    k = int(first_multiple_input[1])
+
+    s = input()
+
+    result = highestValuePalindrome(s, n, k)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
