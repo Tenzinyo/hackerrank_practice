@@ -1,0 +1,17 @@
+def stockPrediction(prices,stocks):
+    n=len(prices)
+    result=[]
+
+    def longestSubarray(index, bounds):
+        minPrice = prices[index]
+        left,right=index,index
+        while left>0 and abs(prices[left-1]-minPrice)<=bounds:
+            left-= 1
+        while right<n-1 and abs(prices[right+1]-minPrice)<=bounds:
+            right+=1
+        return right-left+1
+    
+    for index,bounds in stocks:
+        res=longestSubarray(index,bounds)
+        result.append(res)
+    return result
