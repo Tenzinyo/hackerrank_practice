@@ -1,0 +1,50 @@
+import heapq
+
+# user_input=input().split('')
+m, k = [int(i) for i in input().split(' ')]
+total_hour=24
+total_minutes =60
+# for i in range(len(user_input)):
+#     if i==0:
+#         m=int(user_input[i])
+#     elif i==1:
+#         k=int(user_input[i])
+
+q=[]
+for i in range(m):
+    startH,startM, endH, endM = input().split(' ')
+    #minute convertion and push it in the heap with start time 
+    time1 = int(startH)*total_minutes + int(startM)
+    time2 = int(endH)*total_minutes +int(endM)
+    
+    #handling overnight cases
+    if time2<time1:
+        time2=total_hour*total_minutes
+        heapq.heappush(q,(time1,time2))
+    else:
+        heapq.heappush(q,(time1,time2))
+    
+previous_time=0
+while q:
+    time1,time2 = heapq.heappop(q)
+    time_difference = time1-previous_time
+    if time_difference>=k:
+        first_hour = int(previous_time/total_minutes)
+        first_m = int(previous_time%total_minutes)
+        end_hour=int(time1/total_minutes)
+        end_m = int(time1%total_minutes)
+        print(f"{first_hour:02} {first_m:02} {end_hour:02} {end_m:02}")
+    previous_time = max(previous_time,time2)
+    
+#remaining avalibility
+end_time = total_hour*total_minutes
+if end_time-previous_time>=k:
+    first_hour = int(previous_time/total_minutes)
+    first_m = int(previous_time%total_minutes)
+    end_hour = 0
+    end_m=0
+    print(f"{first_hour:02} {first_m:02} {end_hour:02} {end_m:02}")
+    
+        
+        
+    
