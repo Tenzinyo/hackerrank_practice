@@ -1,0 +1,11 @@
+def getMinCost(cost,time):
+
+  tasks = [[cost[i], time[i]] for i in range(len(cost))]
+  tasks.sort(reverse=True)
+  total_cost=0
+  free_time = 0
+  for task_cost, task_time in tasks:
+    if free_time<task_time:
+      total_cost+=task_cost
+    free_time+=task_time
+  return total_cost
